@@ -1,0 +1,14 @@
+services:
+  express-app:
+    build: .
+    container_name: handson-express
+    ports:
+      # ホストの8080番ポートをコンテナの3000番ポートに転送
+      - "8080:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./server.js:/app/server.js:ro
+    command: ["npm", "run", "dev"]
+    restart: unless-stopped
