@@ -5,12 +5,11 @@ canary_savedとinputが同じ値ならflagゲットできる。
 canary_savedは何なのか見ると
 canary_savedはcanaryのデリファレンスであった。
 
-::: note info
+[!NOTE]
 
 デリファレンスとは
 ポインタが格納しているアドレスを使って、そのアドレスの先にある値にアクセスすること
 
-:::
 
 さらに見てみよう。canaryというポインタ変数はなんて定義されているかというと、
 ``` c
@@ -22,7 +21,7 @@ canary = (unsigned long *)(buf + 0xc8);
 どうやってその値を把握するか考える。
 最初のread関数について調べた。
 
-::: note info
+[!NOTE]
 
 read(fd, buf, count)
 |引数|意味|
@@ -31,7 +30,7 @@ read(fd, buf, count)
 |buf|読み込んだデータを格納するメモリの先頭アドレス|
 |count|最大なんバイト読み込むか|
 
-:::
+
 
 cコードは
 ``` c
