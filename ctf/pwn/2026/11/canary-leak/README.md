@@ -6,8 +6,7 @@ canary_savedは何なのか見ると
 canary_savedはcanaryのデリファレンスであった。
 
 [!NOTE]
-
-デリファレンスとは
+**デリファレンスとは**
 ポインタが格納しているアドレスを使って、そのアドレスの先にある値にアクセスすること
 
 
@@ -22,8 +21,7 @@ canary = (unsigned long *)(buf + 0xc8);
 最初のread関数について調べた。
 
 [!NOTE]
-
-read(fd, buf, count)
+**read(fd, buf, count)**
 |引数|意味|
 |--|--|
 |fd|読み込み元を指定するファイルディスクリプタ|
