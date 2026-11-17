@@ -13,3 +13,5 @@
 ・[alloc-101](./alloc-101/)
 
 ・[func-array](./func-array/)
+
+・[canary leak](./canary-leak/)
