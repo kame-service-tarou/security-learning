@@ -17,7 +17,8 @@ canary = (unsigned long *)(buf + 0xc8);
 **つまり、目標はbufの+0xc8のアドレスの値を見つけること。**
 
 どうやってその値を把握するか考える。
-最初のread関数について調べた。
+コードについて調べながら考える。
+まずはread関数だ。
 ```c
 read(fd, buf, count)
 ```
@@ -38,9 +39,29 @@ puts(buf)
 ```
 これはbufに格納されている文字列をターミナルに出力します。
 この関数を利用して、buf+0xc8のアドレスにある値を出力させたい。
+puts関数の仕様として、上記のコードは概念的に次のような意味です。
+```c
+puts(&buf[0])
+```
+つまり、bufから先頭要素のアドレスを取得して、そのアドレスをputsに渡し、putsはそのアドレスから文字を順番に読み取り、``\0``が見つかったら読み取りを終了して、文字列を出力して改行します。
+
+なるほどじゃあ、初めのInputでbufを0xc8バイト分埋めてしまえば出てくるんじゃないかな。やってみた。
+
+```
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+\xe7\x96v \xa8\xa3\x9d\x10\xdf\xd9\xca\xfd\x7f
+```
+出たーでた。でたー！
+でも待ってやPIEあるから実行ごとに変わるくね。どうすんのや。調べよう。調べた。
+**stack smashing**は最後のほうに起きるからリークさせた後にその値を何かしらのpwntoolsを使って保存しておく。
+そして二つ目のread関数を使って第二引数であるrsiにリークさせた値を入れて、flagをゲットする方針で活きます。
+でも今回の問題の第二引数はInputのアドレスを指しているだけなので、普通にcanary_savedの値を入れるだけでいい
+でも今回のスタックは
 
 
 
+
+# 参考文献
 [pwn入門](https://qiita.com/trimscash/items/71f417f99508f8ca78f8)
 
 [SSP](https://qiita.com/GmS944y/items/b10a1abde35f7175ea4b)
